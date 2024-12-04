@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Modal, Pressable, Text, View } from "react-native";
 
 import styles from "./styles";
 import Header from "../../components/Header";
@@ -9,6 +9,7 @@ import ClientCard from "../../components/ClientCard";
 import Button from "../../components/Button";
 import { userService } from "../../services/user/usersService";
 import { User } from "../../models/userModel";
+import DeleteClientModal from "./DeleteClientModal";
 
 const Home = () => {
   const [totalPages, setTotalPages] = useState(0);
@@ -16,6 +17,10 @@ const Home = () => {
   const [clients, setClients] = useState([]);
   const [currentPageState, setCurrentPageState] = useState(1);
   const [limit, setLimit] = useState(3);
+
+  const [showDeleteClientModal, setShowDeleteClientModal] = useState(false);
+  const [deleteClient, setDeleteClient] = useState("");
+  const [deleteClientId, setDeleteClientId] = useState(0);
 
   useEffect(() => {
     getUsers();
@@ -48,9 +53,35 @@ const Home = () => {
         nestedScrollEnabled
         data={clients}
         keyExtractor={(client) => String(client.id)}
-        renderItem={({ item }: any) => <ClientCard type="home" client={item} />}
+        renderItem={({ item }: any) => (
+          <ClientCard onDeleteClient={openModal} type="home" client={item} />
+        )}
       />
     );
+  }
+
+  function openModal(clientName: string, clientId: number) {
+    setShowDeleteClientModal(true);
+
+    setDeleteClient(clientName);
+    setDeleteClientId(clientId);
+  }
+
+  async function handleDeleteClient() {
+    const response = await userService.deleteUserById(deleteClientId);
+    setShowDeleteClientModal(false);
+
+    const { clients, totalPages, currentPage } = await userService.getAllUsers(
+      page,
+      limit
+    );
+    setClients(clients);
+    setFoundCLients(clients.length);
+    setCurrentPageState(currentPage);
+  }
+
+  function handleCloseModal() {
+    setShowDeleteClientModal(false);
   }
 
   return (
@@ -141,6 +172,18 @@ const Home = () => {
           )}
         </View>
       </View>
+
+      <Modal
+        visible={showDeleteClientModal}
+        animationType="slide"
+        transparent={true}
+      >
+        <DeleteClientModal
+          onCloseModal={handleCloseModal}
+          onDeleteClient={handleDeleteClient}
+          clientName={deleteClient}
+        />
+      </Modal>
     </View>
   );
 };

@@ -28,6 +28,16 @@ async function getAllUsers(
   }
 }
 
+async function deleteUserById(id: number) {
+  try {
+    const data = await api.delete(`/users/${id}`);
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const userService = {
   getAllUsers,
+  deleteUserById,
 };

@@ -6,16 +6,17 @@ import currencyFormatter from "../../helpers/currencyFormatter";
 interface ClientCardProps {
   client: {
     id: number;
-    name: String;
+    name: string;
     salary: number;
     companyValuation: number;
-    createdAt: String;
-    updatedAt: String;
+    createdAt: string;
+    updatedAt: string;
   };
   type: String;
+  onDeleteClient: (clientName: string, clientId: number) => void;
 }
 
-const ClientCard = ({ client, type }: ClientCardProps) => {
+const ClientCard = ({ client, type, onDeleteClient }: ClientCardProps) => {
   return (
     <View style={styles.clientCardContainer}>
       <Text style={[styles.clientText, styles.clientTitle]}>{client.name}</Text>
@@ -37,7 +38,7 @@ const ClientCard = ({ client, type }: ClientCardProps) => {
               <Image source={require("../../assets/icons/pencil.png")} />
             </Pressable>
 
-            <Pressable>
+            <Pressable onPress={() => onDeleteClient(client.name, client.id)}>
               <Image source={require("../../assets/icons/garbage.png")} />
             </Pressable>
           </>
