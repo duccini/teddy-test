@@ -11,9 +11,9 @@ const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Efeito1" component={Clients} />
         <Stack.Screen name="Splash" component={Home} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Efeito1" component={Clients} />
       </Stack.Navigator>
     </NavigationContainer>
   );

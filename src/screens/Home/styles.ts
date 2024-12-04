@@ -5,7 +5,7 @@ import colors from "../../constants/colors";
 const styles = StyleSheet.create({
   homeContainer: {
     marginTop: StatusBar.currentHeight,
-    flex: 1,
+    // flex: 1,
     backgroundColor: colors["gray-100"],
   },
 
@@ -35,9 +35,8 @@ const styles = StyleSheet.create({
   },
 
   clientsList: {
-    marginTop: 20,
-
-    gap: 20,
+    width: "100%",
+    alignSelf: "center",
   },
 
   createClient: {

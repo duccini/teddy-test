@@ -3,6 +3,8 @@ import colors from "../../constants/colors";
 
 const styles = StyleSheet.create({
   clientCardContainer: {
+    marginTop: 20,
+
     backgroundColor: colors["white"],
 
     borderRadius: 4,
